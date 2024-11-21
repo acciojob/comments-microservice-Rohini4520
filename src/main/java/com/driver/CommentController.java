@@ -20,12 +20,20 @@ public class CommentController {
 
     @PostMapping
     public void addComment(@RequestBody CommentRequest commentRequest) {
-    	// your code goes here
+
+        String videoId = commentRequest.getVideoId();
+        String comment = commentRequest.getComment();
+
+        videoCommentsMap.putIfAbsent(videoId,new ArrayList<>());
+        videoCommentsMap.get(videoId).add(comment);
+
+
+
     }
 
     @GetMapping("/{videoId}")
     public List<String> getComments(@PathVariable String videoId) {
     	// your code goes here
-        return null;
+        return videoCommentsMap.getOrDefault(videoId,Collections.emptyList());
     }
 }
